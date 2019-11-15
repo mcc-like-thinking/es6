@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		const proto = {
+		  x: 'hello',
+		  foo() {
+		    console.log(this.x);
+		  },
+		};
+		const obj = {
+		  x: 'world',
+		  foo() {
+		  	//console.log(super.x) // super 只能用在对象的方法之中
+		    super.foo();
+		  }
+		}
+		Object.setPrototypeOf(obj, proto);
+		obj.foo() // "world"
+
+		let a = { x: '', y: ''}
+		let aWithDefaults = { x: 1, y: 2, z: 3, ...a }
+		console.log('aWithDefaults', aWithDefaults)
+
+		console.log('Object.assign(2)', Object.assign(2))
+		console.log('{...2}', {...2})
+
+		const source = {
+		  set foo(value) {
+		    console.log(value);
+		  }
+		};
+		const target2 = {};
+		Object.defineProperties(target2, Object.getOwnPropertyDescriptors(source));
+		//Object.getOwnPropertyDescriptor(target2, 'foo')
+		console.log('target2',target2.foo===source.foo)
+
+		let obj2 = { one: 1, two: 2 };
+		for (let [k, v] of Object.entries(obj2)) { // Object.entries的基本用途是遍历对象的属性
+			console.log(k,v)
+		    console.log(`${JSON.stringify(k)}: ${JSON.stringify(v)}`);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		let total = 30;
+		let msg = passthru`The total is ${total} (${total*1.05} with tax)`;
+		function passthru(literals) {
+		  let result = '';
+		  let i = 0;
+		  //console.log('literals',literals, arguments, arguments.length)
+
+		  while (i < literals.length) {
+		    result += literals[i++];
+		    if (i < arguments.length) {
+		      result += arguments[i];
+		    }
+		  }
+		  return result;
+		}
+		//console.log('msg',msg)
+
+		let sender = '<script>alert("abc")<script>'; 
+		let message = SaferHTML`<p>${sender} has sent you a message.</p>`;
+		function SaferHTML(templateData) {
+			console.log('templateData',templateData, arguments)
+		  let s = templateData[0];
+		  for (let i = 1; i < arguments.length; i++) {
+		    let arg = String(arguments[i]);
+		    console.log('arg',arg)
+
+		    // Escape special characters in the substitution.
+		    s += arg.replace(/&/g, "&amp;")
+		            .replace(/</g, "&lt;")
+		            .replace(/>/g, "&gt;");
+
+		    // Don't escape special characters in the template.
+		    s += templateData[i];
+		  }
+		  return s;
+		}
+		console.log('message',message)
+	</script>
+</body>
+</html>

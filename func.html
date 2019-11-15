@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function sortNumbers2() {
+			console.log('arguments', arguments, Array.prototype.slice.call(arguments))
+			// Array.prototype.slice.call 将arguments对象转为数组
+			return Array.prototype.slice.call(arguments).sort();
+		}
+		console.log('sortNumbers2',sortNumbers2(5,8,6,9,0,11,3,7))
+
+		const sortNumbers = (...numbers) => {
+			console.log('numbers',numbers)
+			const sortNumbers = numbers.sort()
+			console.log('sortNumbers', sortNumbers)
+		}
+		sortNumbers(5,8,6,9,0,11,3,7)
+
+		let foo = () => { a: 1 }; // 由于引擎认为大括号是代码块，所以执行了一行语句a: 1。这时，a可以被解释为语句的标签，因此实际执行的语句是1;，然后函数就结束了，没有返回值
+        console.log('foo()',foo())
+
+
+        let a = 1;
+        let b = 2;
+        let c;
+        let fn = () => void doesNotReturn();
+        function doesNotReturn() {
+        	c = a + b
+        }
+        fn()
+        console.log('c=====',c)
+
+        // 箭头函数，函数体内的this对象，是定义时所在的对象，而不是使用时所在的对象
+        // 箭头函数，不可以使用arguments对象，改对象在函数体内不存在
+        // 不能使用yield命令，因此箭头函数不能用作Generator函数
+
+        // 箭头函数没有自己的this，导致内部this就是外层代码块的this
+
+        function foo2() {
+		  setTimeout(() => {
+		    console.log('foo2 id:', this.id); // this，定义时所在的对象
+		  }, 100);
+		}
+		foo2()
+
+
+        function foo3() {
+		  return () => {
+		    return () => {
+		      return () => {
+		        console.log('id:', this.id);
+		      };
+		    };
+		  };
+		}
+
+		var f = foo3.call({id: 1});
+
+		// 内层函数都是箭头函数，都没有自己的this，不能使用call、apply、bind等方法去改变this指向
+		var t1 = f.call({id: 2})()(); // id: 1
+		var t2 = f().call({id: 3})(); // id: 1
+		var t3 = f()().call({id: 4}); // id: 1
+
+
+		// 嵌套箭头函数
+		console.log('嵌套箭头函数===============')
+		// reduce 补课
+		var numbers = [65, 44, 12, 4];
+ 
+		function getSum(total, num) {
+			console.log('total',total)
+		    return total + num;
+		}
+		function myFunction() {
+		    const result = numbers.reduce(getSum);
+		    console.log('result--',result)
+		}
+		myFunction()
+
+		// const pipeline = (...funcs) => val => funcs.reduce((a, b) => b(a), val);
+		const pipeline = (...funcs) => {
+		    return val => {
+			  	return funcs.reduce(
+			  		// 用于执行某个数组元素的函数
+			  		(a, b) => {
+				  		console.log('--a, b--', a, b) // a，初始值或计算结束后的返回值； b当前数组元素
+				  		return b(a)
+			  	    }, val); // val传递给函数的原始值
+		    }
+		}
+		const plus1 = a => a + 1;
+		const mult2 = a => a * 2;
+		const addThenMult = pipeline(plus1, mult2);
+		const addThenMultResult = addThenMult(5)
+		console.log('addThenMultResult', addThenMultResult)
+		function factorial(n, total) {
+		  if (n === 1) return total;
+		  return factorial(n - 1, n * total);
+		}
+		factorial(5, 1) // 120
+
+
+		function currying(fn, n) {
+			var this1 = this
+			console.log('this1',this)
+		  return function (m) {
+		  	console.log('this2',this)
+		  	var this2 = this
+		  	console.log('this1 == this2', this1 == this2)
+		    return fn.call(this, m, n);
+		  };
+		}
+		function tailFactorial(n, total) {
+		  if (n === 1) return total;
+		  return tailFactorial(n - 1, n * total);
+		}
+		const factorial1 = currying(tailFactorial, 1);
+		factorial1(5) // 120
+	</script>
+</body>
+</html>
