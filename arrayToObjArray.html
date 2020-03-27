@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>多个数组转成对象数组</title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 两组数组射成对象数组
+		const zip = ([x,...xs], [y,...ys]) => {
+			if (x === undefined || y === undefined) {
+		  		return [];
+			} else {
+		  		return [[x,y], ...zip(xs, ys)];
+			}
+		}
+
+		let metrodates = [
+		  "2008-01",
+		  "2008-02",
+		  "2008-03"
+		];
+		let figures = [
+		  0,
+		  0.555,
+		  0.293
+		];
+		let output = zip(metrodates, figures).map(([date, data]) => ({date, data}));
+		console.log(output);
+
+		// 多个数组映射成对象数组
+		const isEmpty = xs => xs.length === 0;
+		const head = ([x,...xs]) => x;
+		const tail = ([x,...xs]) => xs;
+
+		const map = (f, ...xxs) => {
+		  	let loop = (acc, xxs) => {
+			    if (xxs.some(isEmpty)) {
+			      return acc;
+			    } else {
+			      return loop([...acc, f(...xxs.map(head))], xxs.map(tail));
+			    }
+		  	};
+		  	return loop([], xxs);
+		}
+
+		let ages = [26,27,28]
+		let output2 = map(
+		  (date, data, age) => ({date, data, age}),
+		  metrodates,
+		  figures,
+		  ages
+		);
+
+		console.log(output2);
+	</script>
+</body>
+</html>

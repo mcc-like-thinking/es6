@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		(function(){
+	    	var hm = document.createElement("link");
+	    	hm.rel = "stylesheet";
+	    	hm.type = "text/css";
+		    hm.href = "./assets/a.css";
+		    var s = document.getElementsByTagName("script")[0];
+		    s.parentNode.insertBefore(hm, s);
+	    })();
+	</script>
+</head>
+<body>
+	<script type="text/javascript">
+	    (function(){
+	    	var hm = document.createElement("script");
+	    	hm.type = "text/javascript";
+		    hm.src = "./assets/a.js";
+		    var s = document.getElementsByTagName("script")[1];
+		    s.parentNode.insertBefore(hm, s);
+	    })();
+	</script>
+</body>
+</html>

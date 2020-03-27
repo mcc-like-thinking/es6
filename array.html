@@ -29,6 +29,24 @@
 		let [a1, ...rest] = [1,2,3]
 		console.log('rest ES5',[1,2,3].slice(1))
 		console.log(a1, rest)
+
+		console.log([1, 4, -5, -3, 10].find((n) => n < 0)) // 找出第一个符合条件的数组成员
+
+		console.log(typeof ['a', 'b'].values())
+
+		var obj = { foo: 'bar', baz: 42 };
+		console.log(typeof Object.values(obj))
+
+		console.log(Object.is(typeof ['a', 'b'].values(), typeof Object.values(obj)))
+
+		console.log(Array.from([,'a','b',,]))
+		console.log(Array.from([,'a','b',]))
+
+		console.log([,'a'].every(x => x==='a'))
+		console.log(['b','a'].every(x => x==='a'))
+
+		console.log([1,,2].reduce((x,y) => x+y))
+		console.log([1,3,2].reduce((x,y) => x+y))
 	</script>
 </body>
 </html>

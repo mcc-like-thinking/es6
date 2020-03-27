@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		const log = {};
+
+		log.levels = {
+		  DEBUG: Symbol('debug'),
+		  INFO: Symbol('info'),
+		  WARN: Symbol('warn')
+		};
+		console.log(log.levels.DEBUG, 'debug message');
+		console.log(log.levels.INFO, 'info message');
+
+
+		let size = Symbol('size');
+		class Collection {
+		  constructor() {
+		  	console.log('size', size)
+		    this[size] = 0;
+		  }
+
+		  add(item) {
+		  	console.log('item', item)
+		  	console.log('this[size]', this[size])
+		    this[this[size]] = item;
+		    this[size]++;
+		  }
+
+		  static sizeOf(instance) {
+		    return instance[size];
+		  }
+		}
+
+		let x = new Collection();
+		console.log('x', x)
+		console.log('Collection.sizeOf(x)', Collection.sizeOf(x))
+		x.add('foo');
+
+		console.log('Collection.sizeOf(x)', Collection.sizeOf(x))
+		x.add('bar');
+
+		console.log('Object.keys(x)', Object.keys(x))
+		console.log('Object.getOwnPropertyNames(x)', Object.getOwnPropertyNames(x))
+		console.log('Object.getOwnPropertySymbols(x)', Object.getOwnPropertySymbols(x))
+
+		let s1 = Symbol.for("foo");
+		console.log(Symbol.keyFor(s1))
+
+		// function A() {
+		//   this.foo = 'hello';
+		// }
+		// if (!window._foo) {
+		//   window._foo = new A();
+		// }
+		// //window._foo = { foo: 'world' };
+		// const a = window._foo;
+		// console.log(a, a.foo); // A {foo: "hello"}
+
+		const FOO_KEY = Symbol.for('foo');
+		function A() {
+		  this.foo = 'hello';
+		}
+		if (!window[FOO_KEY]) {
+		  window[FOO_KEY] = new A();
+		}
+		window[Symbol.for('foo')] = { foo: 'world' };
+		const a = window[FOO_KEY];
+		console.log('--a---',a)
+
+		let arr1 = ['c', 'd'];
+		arr1[Symbol.isConcatSpreadable] = false
+		console.log(arr1[Symbol.isConcatSpreadable])
+		console.log(['a', 'b'].concat(arr1, 'e'))
+
+		const x2 = {};
+		x2[Symbol.replace] = (...s) => console.log(s);
+
+		'Hello'.replace(x2, 'World')
+	</script>
+	<!-- <script type="text/javascript" src="./symbol/symbol.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	    if (/Chrome\/37.0.2062.94/i.test(navigator.userAgent) && (/(windows 7)|(windows nt 6.1)/i.test(navigator.userAgent))) {
+	        var _chrome_37_fix = document.createElement("style");
+	        _chrome_37_fix.type="text/css";
+	        _chrome_37_fix.setAttribute("data-for","result");
+	        _chrome_37_fix.innerHTML = ".t,.f16,#kw,.s_ipt,.c-title,.c-title-size,.to_zhidao,.to_tieba,.to_zhidao_bottom{font-size:15px;} .ec-hospital-info-main h2,.ad-widget-gx_sck-ylzx-doctor-info h2,.ec-card-main h2,.ad-widget-h1 h2,.ad-widget-title h2,.ad-widget-small-head h2,.ad-widget-small-head h2 a,.ad-widget-header .ec-figcaption h2{font-size: 15px !important;}";
+	        document.getElementsByTagName("head")[0].appendChild(_chrome_37_fix);
+	    }
+	    else if (navigator.userAgent.indexOf('Edge') > -1) {
+	        var body = document.querySelector('body');
+	        body.className += ' browser-edge';
+	    }
+	</script>
+	<script>
+		const { href } = window.location;
+	    let src;
+	    if (href.indexOf("partner.toutiao.com") > -1 || href.indexOf("partner.oceanengine.com") > -1) {
+	      src = 'https://hm.baidu.com/hm.js?64d8d9aaa00cd643749093c0625403c3';
+	    } else if (href.indexOf('ad.toutiao.com') > -1 || href.indexOf('ad.oceanengine.com') > -1) {
+	      src = 'https://hm.baidu.com/hm.js?376e3ac895f93debe817f558ee2c7c48';
+	    }
+	    if (src) {
+	      var _hmt = _hmt || [];
+	      (function () {
+	        var hm = document.createElement('script');
+	        hm.src = src;
+	        var s = document.getElementsByTagName('script')[0];
+	        s.parentNode.insertBefore(hm, s);
+	      })();
+	    }
+	</script>
+	<script>
+		/*<![CDATA[*/
+	    var app_id = '660', pk = '';
+	    if (window.screen.width < 640) {
+	      if(app_id) {
+	        document.location.replace("https://app.myzaker.com/index.php?app_id="+app_id);
+	      } else if (pk) {
+	        document.location.replace("https://app.myzaker.com/news/article.php?pk="+pk);
+	      } else {
+	        document.location.replace("https://app.myzaker.com");
+	      }
+	    }
+	  /*]]>*/
+	</script>
+	<script>
+	  //统计
+	  var _hmt = _hmt || [];
+	  (function() {
+	    var hm = document.createElement("script");
+	    hm.src = "https://hm.baidu.com/hm.js?cc7727963122f971608bd86205279c54";
+	    var s = document.getElementsByTagName("script")[0]; 
+	    s.parentNode.insertBefore(hm, s);
+	  })();
+	  // www/zaker_web/js/
+	</script>
+	<script type="text/javascript">
+		;(function() {
+			var isPc = function() {
+			var userAgentInfo = navigator.userAgent;
+			var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPod");
+			var flag = true;
+			for (var v=0;v<Agents.length;v++) {
+				if (userAgentInfo.indexOf(Agents[v]) > 0) {
+					flag = false;
+					break;
+				}
+			}
+			return flag;
+		}
+		if (!isPc() && window.location.href.indexOf('towap=0') < 0) {
+			var url = window.location.href;
+			url = '//m.suning.com';
+			window.location.href = url;
+		}
+		})();
+	</script>
+	<script type="text/javascript">
+	    (function () {
+	      // 不是移动端 直接返回
+	      if (!/iphone|ios|android|mobile/i.test(navigator.userAgent.toLowerCase())) return
+
+	      // 移动端适配，添加特定的meta标签
+	      var meta = document.querySelector('meta[name=viewport]')
+	      // 宽度750的页面
+	      var arr1 = ['/promotion/minichallenge']
+	      // 宽度375的页面
+	      var arr2 = ['/promotion/recommend', '/partner/joinus', '/meeting', '/promotion/cashback', '/partner/recommendInfo', '/promotion/partner2019']
+
+	      if (/mctalk/.test(location.hostname) || arr1.indexOf(location.pathname) > -1) {
+	        meta.setAttribute('content', 'width=750, user-scalable=no, target-densitydpi=device-dpi')
+	      } else if (arr2.indexOf(location.pathname) > -1) {
+	        meta.setAttribute('content', 'width=375, user-scalable=no, target-densitydpi=device-dpi')
+	      } else if (location.href.indexOf('/m/') !== -1) {
+	        if (location.href.indexOf('vcloud') !== -1 && location.href.indexOf('163') !== -1) {
+	          meta.setAttribute('content', 'width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0')
+	        } else {
+	          meta.setAttribute('content', 'target-densitydpi=device-dpi,width=750,user-scalable=no')
+	        }
+	      }
+	    })()
+	</script>
+	<script type="text/javascript">
+		// 哈勃数据统计
+	    (function (document, datracker, root) {
+	    	function loadJsSDK() {
+	    		var script, first_script;
+	    		script = document.createElement("script");
+	    		script.type = "text/javascript";
+	    		script.async = true;
+	    		script.src = "https://hubble-js-bucket.nosdn.127.net/DATracker.globals.1.6.12.6.js";
+	    		first_script = document.getElementsByTagName("script")[0];
+	    		first_script.parentNode.insertBefore(script, first_script)
+	    	}
+	    	if (!datracker["__SV"]) {
+	    		var win = window;
+	    		var gen_fn, functions, i, lib_name = "DATracker";
+	    		window[lib_name] = datracker; datracker["_i"] = [];
+	    		datracker["init"] = function (token, config, name) {
+	    			var target = datracker;
+	    			if (typeof (name) !== "undefined") {
+	    				target = datracker[name] = []
+	    			} else {
+	    				name = lib_name
+	    			}
+	    			target["people"] = target["people"] || [];
+	    			target["abtest"] = target["abtest"] || [];
+	    			target["toString"] = function (no_stub) {
+	    				var str = lib_name;
+	    				if (name !== lib_name) {
+	    					str += "." + name 
+	    				} if (!no_stub) {
+	    					str += " (stub)"
+	    				}
+	    				return str
+	    			};
+    				target["people"]["toString"] = function () {
+    					return target.toString(1) + ".people (stub)"
+    				};
+    				function _set_and_defer(target, fn) {
+    					var split = fn.split(".");
+    					if (split.length == 2) {
+    						target = target[split[0]];
+    						fn = split[1]
+    					}
+    					target[fn] = function () {
+    						target.push([fn].concat(Array.prototype.slice.call(arguments, 0)))
+    					}
+					}
+	    			functions = "track_heatmap register_attributes register_attributes_once clear_attributes unregister_attributes current_attributes single_pageview disable time_event get_appStatus track set_userId track_pageview track_links track_forms register register_once alias unregister identify login logout signup name_tag set_config reset people.set people.set_once people.set_realname people.set_country people.set_province people.set_city people.set_age people.set_gender people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.set_populationWithAccount  people.set_location people.set_birthday people.set_region people.set_account abtest.get_variation abtest.async_get_variable".split(" ");
+	    			for (i = 0; i < functions.length; i++) {
+						_set_and_defer(target, functions[i])
+					}
+	    			datracker["_i"].push([token, config, name])
+	    		};
+	    		datracker["__SV"] = 1.6;
+	    		loadJsSDK()
+	    	}
+	    })(document, window["DATracker"] || [], window);
+
+	    // 初始化
+	    var appkey ='';
+	    if(/vcloud(-test)?.163.com/.test(location.host)){
+	      appkey ='MA-8EA5-1B4E54656795'
+	    }else if(/mctalk/.test(location.host)){
+	      appkey ='MA-B39E-07C1D07430AC'
+	    }else{
+	      appkey ='MA-9F44-2FC2BD04228F'
+	    }
+	    DATracker.init(appkey, {
+	      send_error: true,
+	      truncateLength: 255,
+	      heatmap: {},
+	      abtest: {
+	        enable_abtest: true
+	      },
+	      cross_subdomain_cookie: false //假如产品二级域是 163.com 的，由于公司很多产品都是这个域名，此时应该关闭跨子域,避免出现Cookie too large的问题。
+	    });
+	</script>
+	<script>
+	    // 百度数据统计代码
+	    var _hmt = _hmt || [];
+	    (function () {
+	      var baiduTag
+	      if (/mctalk/.test(location.host)) {
+	        // mctalk站
+	        baiduTag = '1d58d734fad54fcfd03bb77a8b9e64e7'
+	      } else if (/yunxin.163/.test(location.host)) {
+	        // 新域名
+	        baiduTag = '002f106c884757cbd4b64ade633e0937'
+	      } else {
+	        // 老域名
+	        baiduTag = 'b265bfbb2970bfbf3d9280e2d340acdc'
+	      }
+	      var hm = document.createElement("script");
+	      hm.src = "https://hm.baidu.com/hm.js?" + baiduTag;
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+	</script>
+	<script type="text/javascript">
+	    (function(){
+	        var bp = document.createElement('script');
+	        var curProtocol = window.location.protocol.split(':')[0];
+	        if (curProtocol === 'https') {
+	            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+	        }
+	        else {
+	            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	        }
+	        var s = document.getElementsByTagName("script")[0];
+	        s.parentNode.insertBefore(bp, s);
+	    })();
+	</script>
+</body>
+</html>
