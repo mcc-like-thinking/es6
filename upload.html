@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>upload</title>
+	<style type="text/css">
+		.visually-hidden {
+		  position: absolute !important;
+		  height: 1px;
+		  width: 1px;
+		  overflow: hidden;
+		  clip: rect(1px, 1px, 1px, 1px);
+		}
+		input.visually-hidden:focus + label {
+		  outline: thin dotted;
+		}
+		input.visually-hidden:focus-within + label {
+		  outline: thin dotted;
+		}
+
+		#dropbox {
+			width: 300px;
+			height: 100px;
+			border: 1px dashed #dedede;
+		}
+		#preview img {
+			width: 100px;
+			height: auto;
+		}
+	</style>
+</head>
+<body>
+	<h3>预览</h3>
+	<div id="preview"></div>
+	<br>
+	<br>
+
+	<input type="file" id="input">
+	<input type="file" id="input2" multiple onchange="handleFiles(this.files)">
+	<br>
+	<br>
+
+	<input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+	<button id="fileSelect">Select some files</button>
+	<br>
+	<br>
+
+	<input type="file" id="fileElem2" multiple accept="image/*" class="visually-hidden">
+	<label for="fileElem2">Select some files</label>
+	<br>
+	<br>
+
+	<div id="dropbox"></div>
+
+	<script type="text/javascript">
+		const inputElement = document.getElementById('input');
+		const preview = document.getElementById('preview');
+
+		inputElement.addEventListener("change", handleFiles, false);
+		function handleFiles(files) {
+			const fileList = this.files;
+			console.log('fileList', fileList)
+			console.log('files', files)
+
+			for (var i = 0; i < files.length; i++) {
+			    var file = files[i];
+			    var imageType = /^image\//;
+			    
+			    if (!imageType.test(file.type)) {
+			      continue;
+			    }
+			    
+			    var img = document.createElement("img");
+			    img.classList.add("obj");
+			    img.file = file;
+			    preview.appendChild(img);
+			    
+			    var reader = new FileReader();
+			    reader.onload = (function(aImg) {
+			    	return function(e) {
+			    		aImg.src = e.target.result;
+			    		console.log('aImg.file', aImg.file)
+			    	};
+			    })(img);
+			    reader.readAsDataURL(file);
+			}
+		}
+
+		const fileSelect = document.getElementById("fileSelect"),
+			fileElem = document.getElementById("fileElem");
+		fileSelect.addEventListener("click", function (e) {
+			if (fileElem) {
+			    fileElem.click();
+			}
+		}, false);
+
+		let dropbox;
+		dropbox = document.getElementById("dropbox");
+		dropbox.addEventListener("dragenter", dragenter, false);
+		dropbox.addEventListener("dragover", dragover, false);
+		dropbox.addEventListener("drop", drop, false);
+		function dragenter(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		function dragover(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		function drop(e) {
+			e.stopPropagation();
+			e.preventDefault();
+
+			var dt = e.dataTransfer;
+			var files = dt.files;
+
+			handleFiles(files);
+		}
+	</script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>File(s) size</title>
+</head>
+<body onload="updateSize()">
+    <form name="uploadForm">
+	    <div>
+	      <input id="uploadInput" type="file" name="myFiles" onchange="updateSize();" multiple>
+	      selected files: <span id="fileNum">0</span>;
+	      total size: <span id="fileSize">0</span>
+	    </div>
+	    <div><input type="submit" value="Send file"></div>
+    </form>
+    <script>
+		function updateSize() {
+			let nBytes = 0,
+		    	oFiles = document.getElementById("uploadInput").files,
+		    	nFiles = oFiles.length;
+		    	for (let nFileId = 0; nFileId < nFiles; nFileId++) {
+		    		nBytes += oFiles[nFileId].size;
+				}
+				let sOutput = nBytes + " bytes";
+
+				// optional code for multiples approximation
+				const aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+				for (nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+				    sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";
+				}
+				// end of optional code
+				document.getElementById("fileNum").innerHTML = nFiles;
+				document.getElementById("fileSize").innerHTML = sOutput;
+		}
+	</script>
+</body>
+</html> -->

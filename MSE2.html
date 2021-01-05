@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <video controls id='video'></video>
+    <input type='file' id='file'/>
+    <script>
+        /**
+         *
+         *
+         *格式为 fragmented Mp4 https://blog.csdn.net/nonmarking/article/details/53439481
+         *
+         *
+         */
+        //help：
+        //https://zhuanlan.zhihu.com/p/26374202
+        //http://www.ptbird.cn/mediadource-readyState-is-not-open.html
+        //https://stackoverflow.com/questions/28815529/mediasource-uncaught-invalidstateerror-failed-to-execute-appendbuffer-on-so
+        //https://blog.csdn.net/nonmarking/article/details/53439481
+        //转码工具Bento4 下载链接 https://www.bento4.com/downloads/
+        //shell .\mp4fragment.exe .\v0.mp4 v0-new.mp4
+        let file = null;
+        let video = document.getElementById('video');
+        let mimeCodec = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+        mimeCodec = 'video/webm; codecs="vorbis,vp8'
+        let i = 0;
+        document.getElementById('file').onchange = function(){
+          file = this.files[0];
+
+          console.log('this.files', this.files)
+          //一个视频分成3段 首先这个视频要大于30*1024*1024,结尾是file.size
+          let blob = file.slice(0,10*1024*1024);
+          let blob2 = file.slice(10*1024*1024,20*1024*1024);
+          let blob3 = file.slice(20*1024*1024,30*1024*1024);
+
+          console.log('blobs', blob, blob2, blob3)
+          //创建MediaSource
+          let mediaSource = new MediaSource();
+          //video.src 通过 URL.createObjectURL 链接 mediaSource
+          video.src = URL.createObjectURL(mediaSource);
+          //mediaSource设置监听打开链接
+          mediaSource.addEventListener('sourceopen', sourceOpen);
+          function sourceOpen(){
+           console.log('sourceopen')
+            let mediaSource = this;
+            //创建sourceBuffer
+            let sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+            //sourceBuffer监听数据更新updateend
+            sourceBuffer.addEventListener('updateend', function (_) {
+                //分了三段 so 0 1 2 ，当i==2时表示3段已经全部加入sourceBuffer
+                if(i==2){
+                  console.log('资源加载完毕')
+                  mediaSource.endOfStream();
+                  URL.revokeObjectURL(video.src);
+                }else{
+                  //回调中读取字节流触发updateend
+                  let cb = function (num, buf) {
+                    // console.log(sourceBuffer.appendBuffer);
+                    console.log('加载 blob', num)
+                    sourceBuffer.timestampOffset = 60
+                    sourceBuffer.appendBuffer(buf);
+                  }
+
+                  //i==0 表示第一段加载完毕，开始加载第二段
+                  if(i==0) {
+                    // fetchAB(blob2, 2, cb);
+                  } else if(i==1) { //i==0 表示第二段加载完毕，开始加载第三段
+                    //fetchAB(blob3, 3, cb);
+                  }
+                  
+                  
+                   
+                }
+                //第一段加载完毕就开始播放
+                // if(i==0){
+                //   video.play();
+                // }
+                i++;
+               
+              });
+ 
+            //调用读取数据的方法,在回调中加入字节流，触发updateend
+            fetchAB(blob2, 1,function (num, buf) {
+              console.log('加载 blob'+num)
+              sourceBuffer.appendBuffer(buf);
+            });
+           
+          }
+          function fetchAB (file, num, cb) {
+            console.log('fetchAB', file)
+            let reader = new FileReader();
+            reader.onload = function(e){
+              console.log('fetchAB num'+num);
+              cb(num, e.target.result);
+            }
+            reader.readAsArrayBuffer(file);
+           
+          }
+          //fetchAB(file);
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>proxy</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var pipe = function (value) {
+		  var funcStack = [];
+		  var oproxy = new Proxy({} , {
+		    get: function (pipeObject, fnName) {
+		    	console.log('fnName')
+			    if (fnName === 'get') {
+			    	console.log('funcStack', funcStack)
+			        return funcStack.reduce(function (val, fn) {
+			        	console.log('val, fn', val, fn)
+			        	return fn(val);
+			        },value);
+			    }
+			    funcStack.push(window[fnName]);
+			    return oproxy;
+		    }
+		  });
+		  return oproxy;
+		}
+
+		var double = n => n * 2;
+		var pow    = n => n * n;
+		var reverseInt = n => n.toString().split("").reverse().join("") | 0;
+
+		var reslut = pipe(3).double.pow.reverseInt.get;
+
+		// let set = new Set(['red', 'green', 'blue']);
+		// console.log('set', set)
+	</script>
+</body>
+</html>

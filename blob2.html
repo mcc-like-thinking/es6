@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<img src="">
+	<video src="./assets/dcy.mp4" controls></video>
+	<video id="videoDemo" controls preload="auto" oncontextmenu="return false" ></video>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	var url = ""
+    function dataURLtoBlob(dataurl) {
+	    var arr = dataurl.split(',');
+	    var mime = arr[0].match(/:(.*?);/);
+	    var bstr = atob(arr[1]);
+	    var n = bstr.length;
+	    var u8arr = new Uint8Array(n);
+	    var mime = mime[1];
+	    while (n--) {
+	        u8arr[n] = bstr.charCodeAt(n);
+	    }
+	    return window.URL.createObjectURL(new Blob([u8arr], { type: mime }));
+	}
+
+	// $('img').attr('src',dataURLtoBlob(url));
+
+
+	var video = document.getElementById("videoDemo");
+
+    //mp4 格式 跟文件也有关
+    var assetURL = "./assets/dcy.mp4";
+    var mimeCodec = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+    
+    //webm 格式
+    // var assetURL = "demo.webm";
+    // var mimeCodec = 'video/webm;codecs="vorbis,vp8"';
+    
+    if ("MediaSource" in window && MediaSource.isTypeSupported(mimeCodec)) {
+      var mediaSource = new MediaSource();
+      video.src = URL.createObjectURL(mediaSource);
+      mediaSource.addEventListener("sourceopen", sourceOpen);
+    } else {
+      console.error("Unsupported MIME type or codec: ", mimeCodec);
+    }
+
+    function sourceOpen() {
+      console.log(this); // open
+      var mediaSource = this;
+      var sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+      fetchAB(assetURL, function(buf) {
+        console.log(buf);
+        console.log(sourceBuffer);
+        sourceBuffer.addEventListener("updateend", function() {
+          console.log(mediaSource);
+          mediaSource.endOfStream();
+          //video.play();  //这里会报错就去掉了
+          console.log(mediaSource.readyState); // ended
+        });
+        sourceBuffer.appendBuffer(buf);
+      });
+    }
+    function fetchAB(url, cb) {
+      console.log("fetchAB----",url);
+      var xhr = new XMLHttpRequest();
+      xhr.open("get", url);
+      xhr.responseType = "arraybuffer";
+      xhr.onload = function() {
+        console.log(xhr.response);
+        cb(xhr.response);
+      };
+      xhr.send();
+    }
+</script>
+</html>
